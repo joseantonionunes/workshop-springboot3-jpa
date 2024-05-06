@@ -12,6 +12,7 @@ import org.hibernate.annotations.FetchMode;
 import com.aprendendospring.treino.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +20,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -44,6 +46,9 @@ public class Order implements Serializable {
 	@Fetch(FetchMode.JOIN)
 	@OneToMany(mappedBy = "id.order")
 	private Set<OrderItem> items = new HashSet<>();
+	
+	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+	private Payment pyment;
 	
 	public Order() {
 		
@@ -93,6 +98,14 @@ public class Order implements Serializable {
 		this.client = client;
 	}
 	
+	public Payment getPyment() {
+		return pyment;
+	}
+
+	public void setPyment(Payment pyment) {
+		this.pyment = pyment;
+	}
+
 	public Set<OrderItem> getItems(){
 		return items;
 	}
